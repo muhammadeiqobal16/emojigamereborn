@@ -80,30 +80,48 @@ header{
 
 /* RESPONSIVENESS */
 
-/* Max-Width 576px */
-@media (max-width: 390px){
-    .box{
-        padding: 0px;
-    }
-    .box p{
-        font-size: 3.5em;
-    }
-}
-
 /* Max-Width 428px */
 @media (max-width: 428px){
+    #gameBoard{
+        padding: 3px;
+        border-radius: 5px;
+    }
     .box{
-        padding: 0px;
+        margin: 2px;
+        padding: 3px;
+        border-radius: 3px;
     }
     .box p{
-        font-size: 3.8em;
+        font-size: 4em;
     }
 }
 
-/* Max-Width 390px */
+/* Max-Width 393px */
 @media (max-width: 393px){
+    #gameBoard{
+        padding: 3px;
+        border-radius: 5px;
+    }
     .box{
-        padding: 0px;
+        margin: 2px;
+        padding: 3px;
+        border-radius: 3px;
+    }
+    .box p{
+        font-size: 3.7em;
+    }
+}
+
+/* Max-Width 375px */
+@media (max-width: 375px){
+    #gameBoard{
+        padding: 3px;
+        border-radius: 5px;
+    }
+    .box{
+        margin: 2px;
+        padding: 3px;
+        border-radius: 3px;
     }
     .box p{
         font-size: 3.5em;
@@ -111,21 +129,33 @@ header{
 }
 
 /* Max-Width 360px */
-@media (max-width: 375px){
+@media (max-width: 360px){
+    #gameBoard{
+        padding: 3px;
+        border-radius: 5px;
+    }
     .box{
-        padding: 0px;
+        margin: 2px;
+        padding: 3px;
+        border-radius: 3px;
     }
     .box p{
-        font-size: 3.2em;
+        font-size: 3.4em;
     }
 }
 
 /* Max-Width 320px */
 @media (max-width: 320px){
+    #gameBoard{
+        padding: 3px;
+        border-radius: 5px;
+    }
     .box{
-        padding: 0px;
+        margin: 2px;
+        padding: 3px;
+        border-radius: 3px;
     }
     .box p{
-        font-size: 2.8em;
+        font-size: 2.9em;
     }
 }
