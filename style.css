@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Roboto:wght@300;900&display=swap');
 *{
     padding: 0;
     margin: 0;
+}
+body{
+    font-family: 'Mochiy Pop One', sans-serif;
 }
 .flex{
     display: flex;
@@ -60,6 +64,7 @@ header{
     background-color: rgba(0, 0, 0, .7);
 }
 #menuBox{
+    text-align: center;
     width: 48%;
     height: 48%;
     flex-direction: column;
@@ -71,4 +76,56 @@ header{
 #menuBox button{
     padding: 5px 10px;
     margin: 10px;
+}
+
+/* RESPONSIVENESS */
+
+/* Max-Width 576px */
+@media (max-width: 390px){
+    .box{
+        padding: 0px;
+    }
+    .box p{
+        font-size: 3.5em;
+    }
+}
+
+/* Max-Width 428px */
+@media (max-width: 428px){
+    .box{
+        padding: 0px;
+    }
+    .box p{
+        font-size: 3.8em;
+    }
+}
+
+/* Max-Width 390px */
+@media (max-width: 393px){
+    .box{
+        padding: 0px;
+    }
+    .box p{
+        font-size: 3.5em;
+    }
+}
+
+/* Max-Width 360px */
+@media (max-width: 375px){
+    .box{
+        padding: 0px;
+    }
+    .box p{
+        font-size: 3.2em;
+    }
+}
+
+/* Max-Width 320px */
+@media (max-width: 320px){
+    .box{
+        padding: 0px;
+    }
+    .box p{
+        font-size: 2.8em;
+    }
 }
