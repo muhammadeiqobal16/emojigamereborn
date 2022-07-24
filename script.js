@@ -1,6 +1,8 @@
 document.addEventListener(`DOMContentLoaded`, function(){
     const MAIN_MENU = `main-menu`;
     let arrCompare = [];
+    let correctCount = null;
+    const INSPECT_BOXES = `inspect-boxes`;
     const emojies = [`😀`,`😀`,`😄`,`😄`,`😐`,`😐`,`😑`,`😑`,`😖`,`😖`,`😫`,`😫`,`😛`,`😛`,`😜`,`😜`];
     const boxesP = document.querySelectorAll(`.box p`);
 
@@ -19,7 +21,8 @@ document.addEventListener(`DOMContentLoaded`, function(){
         });
         
         const menuBox = document.createElement(`div`);
-        menuBox.classList.add(`menuBox`, `flex`);
+        menuBox.setAttribute(`id`, `menuBox`);
+        menuBox.classList.add(`flex`);
         menuBox.append(gameTitle, playBtn);
 
         const menuBackground = document.createElement(`div`);
@@ -68,6 +71,9 @@ document.addEventListener(`DOMContentLoaded`, function(){
     };
 
     const removeMainMenu = function(){
+        const menuBox = document.getElementById(`menuBox`);
+        menuBox.innerHTML = ``;
+
         const menuBackground = document.getElementById(`menuBackground`);
         menuBackground.style.visibility = `hidden`;
     };
@@ -97,6 +103,8 @@ document.addEventListener(`DOMContentLoaded`, function(){
                             boxP.parentElement.style.opacity = `0.5`;
                         };
                     }
+                    correctCount++;
+                    document.dispatchEvent(new Event(INSPECT_BOXES));
                     arrCompare = [];
                 }else{
                     console.log(`beda`);
@@ -105,12 +113,31 @@ document.addEventListener(`DOMContentLoaded`, function(){
                             boxP.parentElement.classList.remove(`clicked`);
                             setTimeout(function(){
                                 boxP.style.visibility = `hidden`;
-                            }, 150);
+                            }, 180);
                         };
                     }
                     arrCompare = [];
-                }
-            }
+                };
+            };
+        };
+    });
+
+    document.addEventListener(INSPECT_BOXES, function(){
+        if(correctCount === 8){
+            const menuBoxText = document.createElement(`h1`);
+            menuBoxText.innerText = `YOU WIN!`;
+
+            const confirmBtn = document.createElement(`button`);
+            confirmBtn.innerText = `OK`;
+            
+            const menuBox = document.getElementById(`menuBox`);
+            menuBox.append(menuBoxText, confirmBtn);
+
+            
+            const menuBackground = document.getElementById(`menuBackground`);
+            menuBackground.append(menuBox);
+            
+            menuBackground.style.visibility = `visible`;
         }
     });
 });

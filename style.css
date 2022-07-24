@@ -58,7 +58,7 @@ header{
     bottom: 0;
     background-color: rgba(0, 0, 0, .7);
 }
-.menuBox{
+#menuBox{
     width: 48%;
     height: 48%;
     flex-direction: column;
@@ -67,7 +67,7 @@ header{
     background-color: white;
     border-radius: 10px;
 }
-.menuBox button{
+#menuBox button{
     padding: 5px 10px;
     margin: 10px;
 }
