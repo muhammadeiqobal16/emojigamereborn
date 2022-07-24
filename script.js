@@ -75,22 +75,25 @@ document.addEventListener(`DOMContentLoaded`, function(){
     };
 
     const gameBegin = function(){
-        timeLeft = 30000;
+        timer();
+        removeMainMenu();
+        hideEmojies();
+    };
+
+    const timer = function(){
+        timeLeft = 3000;
         const timeLeftElem = document.getElementById(`timeLeft`);
         timeLeftElem.parentElement.removeAttribute(`hidden`);
 
         showTimeLeft = setInterval(function(){
-            timeLeft--;
+            timeLeft --;
             timeLeftElem.innerText = timeLeft;
 
             if(timeLeft === 0){
                 clearInterval(showTimeLeft);
                 document.dispatchEvent(new Event(GAME_STATUS));
             };
-        });
-
-        removeMainMenu();
-        hideEmojies();
+        }, 10);
     };
 
     const removeMainMenu = function(){
