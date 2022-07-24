@@ -1,12 +1,13 @@
 document.addEventListener(`DOMContentLoaded`, function(){
-    const MAIN_MENU = `main-menu`;
-    let arrCompare = [];
-    let correctCount = null;
-    const GAME_STATUS = `game-status`;
-    let status = null;
     const emojies = [`😀`,`😀`,`😄`,`😄`,`😐`,`😐`,`😑`,`😑`,`😖`,`😖`,`😫`,`😫`,`😛`,`😛`,`😜`,`😜`];
     const boxesP = document.querySelectorAll(`.box p`);
-
+    const MAIN_MENU = `main-menu`;
+    const GAME_STATUS = `game-status`;
+    const INSPECT_BOXES = `inspect-boxes`;
+    let arrCompare = [];
+    let correctCount = null;
+    let status = null;
+    
     document.addEventListener(MAIN_MENU, function(){
         for(let index in boxesP){
             boxesP[index].innerText = emojies[index];
@@ -39,10 +40,11 @@ document.addEventListener(`DOMContentLoaded`, function(){
 
     const loadingBeforePlay = function(param){
         countDown(param);
-        shuffleEmojies();
     };
 
     const countDown = function(param){
+        shuffleEmojies();
+
         const countText = document.createElement(`h1`);
         countText.innerText = `3`;
         
@@ -55,8 +57,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
 
         setTimeout(function(){
             clearInterval(counter);
-            removeMainMenu();
-            hideEmojies();
+            gameBegin();
         }, 3000);
     };
 
@@ -71,6 +72,11 @@ document.addEventListener(`DOMContentLoaded`, function(){
         setTimeout(()=>clearInterval(shuffling), 3000);
     };
 
+    const gameBegin = function(){
+        removeMainMenu();
+        hideEmojies();
+    }
+
     const removeMainMenu = function(){
         const menuBox = document.getElementById(`menuBox`);
         menuBox.innerHTML = ``;
@@ -82,63 +88,43 @@ document.addEventListener(`DOMContentLoaded`, function(){
     const hideEmojies = function(){
         for(let boxP of boxesP){
             boxP.style.visibility = `hidden`;
-            timer();
         };
-    };
-
-    const timer = function(){
-        const showTimer = document.getElementById(`timer`);
-        showTimer.parentElement.removeAttribute(`hidden`);
-        let time = 3000;
-        
-        const gameCountDown = setInterval(function(){
-            time--;
-            showTimer.innerText = time;
-
-            if(showTimer.innerText == `0`){
-                clearInterval(gameCountDown);
-                setTimeout(function(){
-                    document.dispatchEvent(new Event(GAME_STATUS));
-                },);
-            };
-        },10);
-
     };
 
     document.addEventListener(`click`, function(element){
         if(element.target.classList.contains(`box`)){
-            if(arrCompare.length < 1){
-                element.target.children[0].style.visibility = `visible`;
-                element.target.classList.add(`clicked`);
-                arrCompare.push(element.target.children[0].innerText);
-            }else{
-                element.target.children[0].style.visibility = `visible`;
-                element.target.classList.add(`clicked`);
-                arrCompare.push(element.target.children[0].innerText);
-                const [emo1, emo2] = arrCompare;
-                if(emo1 === emo2){
-                    console.log(`sama`);
-                    for(let boxP of boxesP){
-                        if(boxP.parentElement.classList.contains(`clicked`)){
-                            boxP.parentElement.classList.remove(`clicked`);
-                            boxP.parentElement.style.opacity = `0.5`;
-                        };
-                    }
-                    correctCount++;
-                    document.dispatchEvent(new Event(GAME_STATUS));
-                    arrCompare = [];
-                }else{
-                    console.log(`beda`);
-                    for(let boxP of boxesP){
-                        if(boxP.parentElement.classList.contains(`clicked`)){
-                            boxP.parentElement.classList.remove(`clicked`);
-                            setTimeout(function(){
-                                boxP.style.visibility = `hidden`;
-                            }, 180);
-                        };
-                    }
-                    arrCompare = [];
+            element.target.children[0].style.visibility = `visible`;
+            element.target.classList.add(`clicked`);
+            arrCompare.push(element.target.children[0].innerText);
+            document.dispatchEvent(new Event(INSPECT_BOXES));
+        };
+    });
+
+    document.addEventListener(INSPECT_BOXES, function(){
+        if(arrCompare.length === 2){
+            const [emo1, emo2] = arrCompare;
+            if(emo1 === emo2){
+                console.log(`sama`);
+                for(let boxP of boxesP){
+                    if(boxP.parentElement.classList.contains(`clicked`)){
+                        boxP.parentElement.classList.remove(`clicked`);
+                        boxP.parentElement.style.opacity = `0.5`;
+                    };
                 };
+                correctCount++;
+                arrCompare = [];
+                document.dispatchEvent(new Event(GAME_STATUS));
+            }else{
+                console.log(`beda`);
+                for(let boxP of boxesP){
+                    if(boxP.parentElement.classList.contains(`clicked`)){
+                        boxP.parentElement.classList.remove(`clicked`);
+                        setTimeout(function(){
+                            boxP.style.visibility = `hidden`;
+                        }, 180);
+                    };
+                };
+                arrCompare = [];
             };
         };
     });
@@ -148,45 +134,25 @@ document.addEventListener(`DOMContentLoaded`, function(){
             status = true;
             showGameResult(status);
         }else{
-            const timer = document.getElementById(`timer`);
-            if(timer.innerText == `0`){
-                status = false;
-                showGameResult(status);
-            };
+            status = false;
+            showGameResult(status);
         };
     });
 
     const showGameResult = function(param){
-        if(param === true){
-            const menuBoxText = document.createElement(`h1`);
-            menuBoxText.innerText = `YOU WIN!`;
-    
-            const confirmBtn = document.createElement(`button`);
-            confirmBtn.innerText = `OK`;
+        const menuBoxText = document.createElement(`h1`);
+        param === true ? menuBoxText.innerText = `YOU WIN!`: menuBoxText.innerText = `YOU LOSE!`;
+        
+        const confirmBtn = document.createElement(`button`);
+        confirmBtn.innerText = `OK`;
                 
-            const menuBox = document.getElementById(`menuBox`);
-            menuBox.append(menuBoxText, confirmBtn);
-    
-                
-            const menuBackground = document.getElementById(`menuBackground`);
-            menuBackground.append(menuBox);
-                
-            menuBackground.style.visibility = `visible`;
-        }else{
-            const menuBoxText = document.createElement(`h1`);
-            menuBoxText.innerText = `YOU LOSE!`;
-    
-            const confirmBtn = document.createElement(`button`);
-            confirmBtn.innerText = `OK`;
-                
-            const menuBox = document.getElementById(`menuBox`);
-            menuBox.append(menuBoxText, confirmBtn);
+        const menuBox = document.getElementById(`menuBox`);
+        menuBox.append(menuBoxText, confirmBtn);
     
                 
-            const menuBackground = document.getElementById(`menuBackground`);
-            menuBackground.append(menuBox);
+        const menuBackground = document.getElementById(`menuBackground`);
+        menuBackground.append(menuBox);
                 
-            menuBackground.style.visibility = `visible`;
-        }
+        menuBackground.style.visibility = `visible`;
     };
 });
