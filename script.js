@@ -141,7 +141,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
                         boxP.parentElement.classList.remove(`clicked`);
                         setTimeout(function(){
                             boxP.style.visibility = `hidden`;
-                        }, 180);
+                        }, 200);
                     };
                 };
                 arrCompare = [];
