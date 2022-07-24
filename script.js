@@ -111,7 +111,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
     };
 
     document.addEventListener(`click`, function(element){
-        if(element.target.classList.contains(`box`)){
+        if(element.target.classList.contains(`box`) && !element.target.classList.contains(`solved`)){
             element.target.children[0].style.visibility = `visible`;
             element.target.classList.add(`clicked`);
             arrCompare.push(element.target.children[0].innerText);
@@ -127,6 +127,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
                 for(let boxP of boxesP){
                     if(boxP.parentElement.classList.contains(`clicked`)){
                         boxP.parentElement.classList.remove(`clicked`);
+                        boxP.parentElement.classList.add(`solved`);
                         boxP.parentElement.style.opacity = `0.5`;
                     };
                 };
