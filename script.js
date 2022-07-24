@@ -171,8 +171,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
                 
         const menuBox = document.getElementById(`menuBox`);
         menuBox.append(menuBoxText, confirmBtn);
-    
-                
+        
         const menuBackground = document.getElementById(`menuBackground`);
         menuBackground.append(menuBox);
                 
