@@ -4,6 +4,8 @@ document.addEventListener(`DOMContentLoaded`, function(){
     const MAIN_MENU = `main-menu`;
     const GAME_STATUS = `game-status`;
     const INSPECT_BOXES = `inspect-boxes`;
+    let showTimeLeft = null;
+    let timeLeft = null;
     let arrCompare = [];
     let correctCount = null;
     let status = null;
@@ -73,9 +75,23 @@ document.addEventListener(`DOMContentLoaded`, function(){
     };
 
     const gameBegin = function(){
+        timeLeft = 30000;
+        const timeLeftElem = document.getElementById(`timeLeft`);
+        timeLeftElem.parentElement.removeAttribute(`hidden`);
+
+        showTimeLeft = setInterval(function(){
+            timeLeft--;
+            timeLeftElem.innerText = timeLeft;
+
+            if(timeLeft === 0){
+                clearInterval(showTimeLeft);
+                document.dispatchEvent(new Event(GAME_STATUS));
+            };
+        });
+
         removeMainMenu();
         hideEmojies();
-    }
+    };
 
     const removeMainMenu = function(){
         const menuBox = document.getElementById(`menuBox`);
@@ -132,10 +148,13 @@ document.addEventListener(`DOMContentLoaded`, function(){
     document.addEventListener(GAME_STATUS, function(){
         if(correctCount === 8){
             status = true;
+            clearInterval(showTimeLeft);
             showGameResult(status);
         }else{
-            status = false;
-            showGameResult(status);
+            if(timeLeft === 0){
+                status = false;
+                showGameResult(status);
+            };
         };
     });
 
