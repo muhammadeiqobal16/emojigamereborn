@@ -1,6 +1,5 @@
 document.addEventListener(`DOMContentLoaded`, function(){
     const MAIN_MENU = `main-menu`;
-    const INSPECT_BOXES = `inspect-boxes`;
     let arrCompare = [];
     const emojies = [`😀`,`😀`,`😄`,`😄`,`😐`,`😐`,`😑`,`😑`,`😖`,`😖`,`😫`,`😫`,`😛`,`😛`,`😜`,`😜`];
     const boxesP = document.querySelectorAll(`.box p`);
@@ -81,12 +80,37 @@ document.addEventListener(`DOMContentLoaded`, function(){
 
     document.addEventListener(`click`, function(element){
         if(element.target.classList.contains(`box`)){
-            element.target.children[0].style.visibility = `visible`;
-        };
-        document.dispatchEvent(new Event(INSPECT_BOXES));
-    });
-
-    document.addEventListener(INSPECT_BOXES, function(){
-        
+            if(arrCompare.length < 1){
+                element.target.children[0].style.visibility = `visible`;
+                element.target.classList.add(`clicked`);
+                arrCompare.push(element.target.children[0].innerText);
+            }else{
+                element.target.children[0].style.visibility = `visible`;
+                element.target.classList.add(`clicked`);
+                arrCompare.push(element.target.children[0].innerText);
+                const [emo1, emo2] = arrCompare;
+                if(emo1 === emo2){
+                    console.log(`sama`);
+                    for(let boxP of boxesP){
+                        if(boxP.parentElement.classList.contains(`clicked`)){
+                            boxP.parentElement.classList.remove(`clicked`);
+                            boxP.parentElement.style.opacity = `0.5`;
+                        };
+                    }
+                    arrCompare = [];
+                }else{
+                    console.log(`beda`);
+                    for(let boxP of boxesP){
+                        if(boxP.parentElement.classList.contains(`clicked`)){
+                            boxP.parentElement.classList.remove(`clicked`);
+                            setTimeout(function(){
+                                boxP.style.visibility = `hidden`;
+                            }, 150);
+                        };
+                    }
+                    arrCompare = [];
+                }
+            }
+        }
     });
 });
