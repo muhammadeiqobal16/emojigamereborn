@@ -2,7 +2,8 @@ document.addEventListener(`DOMContentLoaded`, function(){
     const MAIN_MENU = `main-menu`;
     let arrCompare = [];
     let correctCount = null;
-    const INSPECT_BOXES = `inspect-boxes`;
+    const GAME_STATUS = `game-status`;
+    let status = null;
     const emojies = [`😀`,`😀`,`😄`,`😄`,`😐`,`😐`,`😑`,`😑`,`😖`,`😖`,`😫`,`😫`,`😛`,`😛`,`😜`,`😜`];
     const boxesP = document.querySelectorAll(`.box p`);
 
@@ -81,7 +82,27 @@ document.addEventListener(`DOMContentLoaded`, function(){
     const hideEmojies = function(){
         for(let boxP of boxesP){
             boxP.style.visibility = `hidden`;
+            timer();
         };
+    };
+
+    const timer = function(){
+        const showTimer = document.getElementById(`timer`);
+        showTimer.parentElement.removeAttribute(`hidden`);
+        let time = 3000;
+        
+        const gameCountDown = setInterval(function(){
+            time--;
+            showTimer.innerText = time;
+
+            if(showTimer.innerText == `0`){
+                clearInterval(gameCountDown);
+                setTimeout(function(){
+                    document.dispatchEvent(new Event(GAME_STATUS));
+                },);
+            };
+        },10);
+
     };
 
     document.addEventListener(`click`, function(element){
@@ -104,7 +125,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
                         };
                     }
                     correctCount++;
-                    document.dispatchEvent(new Event(INSPECT_BOXES));
+                    document.dispatchEvent(new Event(GAME_STATUS));
                     arrCompare = [];
                 }else{
                     console.log(`beda`);
@@ -122,22 +143,50 @@ document.addEventListener(`DOMContentLoaded`, function(){
         };
     });
 
-    document.addEventListener(INSPECT_BOXES, function(){
+    document.addEventListener(GAME_STATUS, function(){
         if(correctCount === 8){
+            status = true;
+            showGameResult(status);
+        }else{
+            const timer = document.getElementById(`timer`);
+            if(timer.innerText == `0`){
+                status = false;
+                showGameResult(status);
+            };
+        };
+    });
+
+    const showGameResult = function(param){
+        if(param === true){
             const menuBoxText = document.createElement(`h1`);
             menuBoxText.innerText = `YOU WIN!`;
-
+    
             const confirmBtn = document.createElement(`button`);
             confirmBtn.innerText = `OK`;
-            
+                
             const menuBox = document.getElementById(`menuBox`);
             menuBox.append(menuBoxText, confirmBtn);
-
-            
+    
+                
             const menuBackground = document.getElementById(`menuBackground`);
             menuBackground.append(menuBox);
-            
+                
+            menuBackground.style.visibility = `visible`;
+        }else{
+            const menuBoxText = document.createElement(`h1`);
+            menuBoxText.innerText = `YOU LOSE!`;
+    
+            const confirmBtn = document.createElement(`button`);
+            confirmBtn.innerText = `OK`;
+                
+            const menuBox = document.getElementById(`menuBox`);
+            menuBox.append(menuBoxText, confirmBtn);
+    
+                
+            const menuBackground = document.getElementById(`menuBackground`);
+            menuBackground.append(menuBox);
+                
             menuBackground.style.visibility = `visible`;
         }
-    });
+    };
 });
