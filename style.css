@@ -77,11 +77,21 @@ header{
     padding: 5px 10px;
     margin: 10px;
 }
+.btnWrapper{
+    text-decoration: none;
+    color: black;
+}
 
 /* RESPONSIVENESS */
 
 /* Max-Width 428px */
 @media (max-width: 428px){
+    #menuBox{
+        width: 50%;
+        height: 50%;
+        padding: 10px;
+        border-radius: 5px;
+    }
     #gameBoard{
         padding: 3px;
         border-radius: 5px;

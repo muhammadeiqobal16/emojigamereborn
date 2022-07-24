@@ -168,9 +168,14 @@ document.addEventListener(`DOMContentLoaded`, function(){
         
         const confirmBtn = document.createElement(`button`);
         confirmBtn.innerText = `OK`;
+
+        const btnWrapper = document.createElement(`a`);
+        btnWrapper.setAttribute(`href`, ``);
+        btnWrapper.classList.add(`btnWrapper`);
+        btnWrapper.append(confirmBtn);
                 
         const menuBox = document.getElementById(`menuBox`);
-        menuBox.append(menuBoxText, confirmBtn);
+        menuBox.append(menuBoxText, btnWrapper);
         
         const menuBackground = document.getElementById(`menuBackground`);
         menuBackground.append(menuBox);
