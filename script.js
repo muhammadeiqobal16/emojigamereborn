@@ -93,19 +93,21 @@ document.addEventListener(`DOMContentLoaded`, function(){
     };
 
     const timer = function(){
-        timeLeft = 3000;
+        timeLeft = 29;
         const timeLeftElem = document.getElementById(`timeLeft`);
         timeLeftElem.parentElement.removeAttribute(`hidden`);
 
-        showTimeLeft = setInterval(function(){
-            timeLeft --;
-            timeLeftElem.innerText = timeLeft;
+        showTimeLeft = setInterval(countToZero, 1000);
 
-            if(timeLeft === 0){
-                clearInterval(showTimeLeft);
+        function countToZero(){
+            if(timeLeft == 0){
+                clearTimeout(showTimeLeft);
                 document.dispatchEvent(new Event(GAME_STATUS));
+            }else{
+                timeLeft--;
+                timeLeftElem.innerText = `${timeLeft}s`;
             };
-        }, 10);
+        };
     };
 
     const removeMainMenu = function(){
@@ -167,7 +169,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
             clearInterval(showTimeLeft);
             showGameResult(status);
         }else{
-            if(timeLeft === 0){
+            if(timeLeft == 0){
                 status = false;
                 showGameResult(status);
             };
@@ -178,7 +180,9 @@ document.addEventListener(`DOMContentLoaded`, function(){
         const menuBoxText = document.createElement(`h1`);
         if(param === true){
             menuBoxText.innerText = `YOU WIN!`;
-            localStorage.setItem(STORAGE_KEY, timeLeft);
+            if((timeLeft) > (localStorage.getItem(STORAGE_KEY))){
+                localStorage.setItem(STORAGE_KEY, (timeLeft));
+            };
         }else{
             menuBoxText.innerText = `YOU LOSE!`;
         };
