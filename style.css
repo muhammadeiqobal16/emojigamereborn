@@ -3,9 +3,6 @@
     padding: 0;
     margin: 0;
 }
-body{
-    font-family: 'Mochiy Pop One', sans-serif;
-}
 .flex{
     display: flex;
 }
@@ -73,6 +70,9 @@ header{
     background-color: white;
     border-radius: 10px;
 }
+#menuBox h1{
+    font-family: 'Mochiy Pop One', sans-serif;
+}
 #menuBox button{
     padding: 5px 10px;
     margin: 10px;
@@ -81,7 +81,9 @@ header{
     text-decoration: none;
     color: black;
 }
-
+#timeLeft{
+    font-family: 'Mochiy Pop One', sans-serif;
+}
 /* RESPONSIVENESS */
 
 /* Max-Width 428px */
