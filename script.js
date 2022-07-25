@@ -1,6 +1,7 @@
 document.addEventListener(`DOMContentLoaded`, function(){
     const emojies = [`😀`,`😀`,`😄`,`😄`,`😐`,`😐`,`😑`,`😑`,`😖`,`😖`,`😫`,`😫`,`😛`,`😛`,`😜`,`😜`];
     const boxesP = document.querySelectorAll(`.box p`);
+    const STORAGE_KEY = `best-time`;
     const MAIN_MENU = `main-menu`;
     const GAME_STATUS = `game-status`;
     const INSPECT_BOXES = `inspect-boxes`;
@@ -9,6 +10,14 @@ document.addEventListener(`DOMContentLoaded`, function(){
     let arrCompare = [];
     let correctCount = null;
     let status = null;
+
+    if(typeof(Storage)!==`undefined`){
+        if(localStorage.getItem(STORAGE_KEY) === null){
+            localStorage.setItem(STORAGE_KEY, 0);
+        };
+    }else{
+        alert(`Your browser does not support web storage. So, you will never saved your game's best time`);
+    };
     
     document.addEventListener(MAIN_MENU, function(){
         for(let index in boxesP){
@@ -23,11 +32,14 @@ document.addEventListener(`DOMContentLoaded`, function(){
         playBtn.addEventListener(`click`, function(){
             loadingBeforePlay(menuBox);
         });
+
+        const bestTime = document.createElement(`p`);
+        bestTime.innerText = `Best Time: ${localStorage.getItem(STORAGE_KEY)}s`;
         
         const menuBox = document.createElement(`div`);
         menuBox.setAttribute(`id`, `menuBox`);
         menuBox.classList.add(`flex`);
-        menuBox.append(gameTitle, playBtn);
+        menuBox.append(gameTitle, playBtn, bestTime);
 
         const menuBackground = document.createElement(`div`);
         menuBackground.setAttribute(`id`, `menuBackground`);
@@ -164,7 +176,12 @@ document.addEventListener(`DOMContentLoaded`, function(){
 
     const showGameResult = function(param){
         const menuBoxText = document.createElement(`h1`);
-        param === true ? menuBoxText.innerText = `YOU WIN!`: menuBoxText.innerText = `YOU LOSE!`;
+        if(param === true){
+            menuBoxText.innerText = `YOU WIN!`;
+            localStorage.setItem(STORAGE_KEY, timeLeft);
+        }else{
+            menuBoxText.innerText = `YOU LOSE!`;
+        };
         
         const confirmBtn = document.createElement(`button`);
         confirmBtn.innerText = `OK`;
@@ -173,9 +190,12 @@ document.addEventListener(`DOMContentLoaded`, function(){
         btnWrapper.setAttribute(`href`, ``);
         btnWrapper.classList.add(`btnWrapper`);
         btnWrapper.append(confirmBtn);
+
+        const bestTime = document.createElement(`p`);
+        bestTime.innerText = `Best Time: ${localStorage.getItem(STORAGE_KEY)}s`;
                 
         const menuBox = document.getElementById(`menuBox`);
-        menuBox.append(menuBoxText, btnWrapper);
+        menuBox.append(menuBoxText, btnWrapper, bestTime);
         
         const menuBackground = document.getElementById(`menuBackground`);
         menuBackground.append(menuBox);
