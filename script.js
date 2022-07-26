@@ -34,7 +34,11 @@ document.addEventListener(`DOMContentLoaded`, function(){
         });
 
         const bestTime = document.createElement(`p`);
-        bestTime.innerText = `Best Time Left: ${localStorage.getItem(STORAGE_KEY)}s`;
+        if(30-localStorage.getItem(STORAGE_KEY)===30){
+            bestTime.innerText = `Best Time: ${localStorage.getItem(STORAGE_KEY)}s`;
+        }else{
+            bestTime.innerText = `Best Time: ${30-localStorage.getItem(STORAGE_KEY)}s`;
+        };
         
         const menuBox = document.createElement(`div`);
         menuBox.setAttribute(`id`, `menuBox`);
@@ -196,7 +200,7 @@ document.addEventListener(`DOMContentLoaded`, function(){
         btnWrapper.append(confirmBtn);
 
         const bestTime = document.createElement(`p`);
-        bestTime.innerText = `Best Time Left: ${localStorage.getItem(STORAGE_KEY)}s`;
+        bestTime.innerText = `Best Time: ${30-localStorage.getItem(STORAGE_KEY)}s`;
                 
         const menuBox = document.getElementById(`menuBox`);
         menuBox.append(menuBoxText, btnWrapper, bestTime);
